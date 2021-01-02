@@ -1,0 +1,93 @@
+/* Start of main rules */
+:root {
+    --main-color: #006d33;
+}
+
+::placeholder {
+    text-align:center;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+}
+/* End of main rules */
+
+.page {
+    background-color: var(--main-color);
+    padding: 48px 15px;
+    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+}
+
+.page section {
+    background-color: #fff;
+    max-width: 445px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid #ebecec;
+    text-align: center;
+    font-size: 15px;
+}
+
+/* Start of logo section */
+.page .logo img {
+    width: 50%;
+    margin-top: 24px;
+    margin-bottom: 9px;
+}
+/* End of logo section */
+
+/* Start of form */
+.page section form {
+    padding-top: 5px;
+    font-size: 16px;
+}
+
+.page section form input {
+    width: 100%;
+    text-align: center;
+    border: none;
+    border: 1px solid #d4d6d5;
+    border-radius: 16px;
+    padding: 6px 12px;
+    margin-bottom: 8px;
+    line-height: 1.5;
+    color: #464545;
+    font-family: Arial;
+    transition: 0.2s ease-in-out;
+    word-spacing: -0.5px;
+}
+
+.page section form input:focus {
+    outline: none;
+    border: none;
+    border: 1px solid #75c0bc;
+    box-shadow: 0 0 0 3px rgb(184, 231, 229);
+    text-align: right;
+}
+
+.page section form button {
+    display: inline-block;
+    background-color: #28a745;
+    color: #fff;
+    padding: 4px 49px;
+    border: none;
+    border-radius: 10px;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.page section form button:hover {
+    background-color: var(--main-color);
+}
+
+.page section form button:focus {
+    outline: none;
+    background-color: var(--main-color);
+    box-shadow: 0 0 0 3px rgb(184, 231, 229);
+}
+/* End of form */

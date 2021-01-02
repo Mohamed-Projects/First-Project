@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <title>TR</title>
+        <link rel='icon' type='image/x-icon' href='#'>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap">
+        <link rel="stylesheet" href="css/all.min.css">
+        <link rel='stylesheet' href='css/bootstrap.min.css'>
+        <link rel="stylesheet" href="css/logged-in_style.css">
+        <style>
+            .overlay {
+                width: 100%;
+                height: 100%;
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 6;
+                background-color: rgba(0, 0, 0, 0.3); 
+                display: none;
+            }
+            .overlay.show {
+                display: block;
+            }
+            .edit-box {
+                direction: ltr;
+                width: 497px;
+                height: 450px;
+                left: calc(50% - 248.5px);
+                top: calc(50% - 225px);
+                position: fixed;
+                padding: 43px 24.5px;
+                text-align: center;
+                border-radius: 15px;
+                background-color: #424242;
+                color: #fff;
+                transition: 0.2s;
+                z-index: 7;
+                display: none;
+                box-shadow: 0 11px 15px -7px rgba(0,0,0,.2), 0 24px 38px 3px rgba(0,0,0,.14), 0 9px 46px 8px rgba(0,0,0,.12);
+            }
+            .edit-box.show {
+                display: block;
+                animation: animated 1 .5s forwards;
+            }
+            .edit-box h5 {
+                font-size: 20px;
+                width: 100%;
+                margin-bottom: 18px;
+                margin-right: -8px;
+                margin-top: -6px;
+            }
+            .edit-box form {
+                direction: rtl;
+                text-align: right;
+            }
+            .edit-box form > .form-group {
+                padding-right: 8px;
+                padding-left: 8px;
+                margin-bottom: 14px;
+            }
+            .edit-box form > .form-group input {
+                margin-top: -2px;
+                padding: 17px;
+            }
+            .edit-box form label {
+                margin-bottom: 0;
+            }
+            .edit-box form .form-row {
+                margin: 0;
+            }
+            .edit-box form .form-row:last-of-type {
+                margin-top: -6px;
+                direction: ltr;
+                padding-left: 8px;
+            }
+            .edit-box form .form-row:last-of-type button {
+                margin-right: 16px;
+                border-radius: 10px;
+            }
+            .edit-box form .form-row .form-group {
+                padding-right: 8px;
+                padding-left: 8px;
+                margin-bottom: 14px;
+            }
+            .edit-box form .form-row .form-group input {
+                margin-top: -1.8px;
+            }
+            .delete-box {
+                position: fixed;
+                z-index: 7;
+                top: calc(50% - 105px);
+                left: calc(50% - 102.25px);
+                width: 204.5px;
+                height: 210px;
+                background-color: #424242;
+                color: #fff;
+                border-radius: 15px;
+                box-shadow: 0 11px 15px -7px rgba(0,0,0,.2), 0 24px 38px 3px rgba(0,0,0,.14), 0 9px 46px 8px rgba(0,0,0,.12);
+                padding: 24px;
+                transition: 0.2s;
+                display: none;
+            }
+            .delete-box.show {
+                display: block;
+                animation: animated 1 .5s forwards;
+            }
+            .delete-box i {
+                font-size: 56px;
+                margin-top: 8px;
+                margin-bottom: 16px;
+            }
+            .delete-box p {
+                font-size: 14px;
+                margin-bottom: 15px;
+            }
+            .delete-box .box button {
+                border-radius: 10px;
+                margin-left: 12px;
+            }
+            .delete-box .box button:last-child {
+                margin-left: 0;
+            }
+            article {
+                padding-bottom: 0;
+            }
+            .members h1 {
+                color: #fff;
+                font-size: 24px;
+                margin-right: 48px;
+                line-height: 1.3;
+                margin-bottom: 17px;
+            }
+            .members section {
+                background-color: #fff;
+                border-radius: 20px;
+                margin: 0 5%;
+                padding-top: 35px;
+                padding-bottom: 50px;
+            }
+            .members .row {
+                margin: 0;
+            }
+            .members .row .col {
+                padding-left: 0;
+            }
+            .members .btn {
+                border-radius: 10px;
+            }
+            .members section .table-responsive {
+                width: 90%;
+                margin: auto;
+                border-radius: 15px;
+            }
+            .members section .table-responsive thead {
+                background-color: #28a745;
+                color: #fff;
+                line-height: 20px;
+            }
+            .members section .table-responsive thead tr th:nth-child(3) {
+                transform: translateX(-4px);
+            }
+            .members section .table-responsive thead tr th:nth-child(4) {
+                transform: translateX(-3.5px);
+            }
+            .members section .table-responsive thead tr th:nth-child(5),
+            .members section .table-responsive thead tr th:nth-child(6),
+            .members section .table-responsive thead tr th:nth-child(7) {
+                transform: translateX(-2.8px);
+            }
+            .members section .table-responsive tbody tr td {
+                line-height: 1.25;
+                font-weight: 900;
+                color: #212529;
+                margin-bottom: 8px;
+            }
+            .members section .table-responsive tbody tr td:nth-child(2) {
+                cursor: pointer;
+            }
+            .members section .table-responsive tbody tr td:nth-child(3) {
+                transform: translateX(-4px);
+            }
+            .members section .table-responsive tbody tr td:nth-child(4) {
+                transform: translateX(-3.5px);
+            }
+            .members section .table-responsive tbody tr td:nth-child(5),
+            .members section .table-responsive tbody tr td:nth-child(6),
+            .members section .table-responsive tbody tr td:nth-child(7) {
+                transform: translateX(-2.8px);
+            }
+            .members section .table-responsive tbody tr td:last-child {
+                display: flex;
+            }
+            .members section .table-responsive tbody tr td:last-child .edit, 
+            .members section .table-responsive tbody tr td:last-child .remove {
+                color: #fff;
+                border-radius: 10px;
+                margin-left: 8px;
+                transform: translate(-4px, 4px);
+            }
+            .members section .pagination .page-link {
+                border: none;
+                color: #0a0a0a;
+                padding: 2px 10px;
+            }
+            .members section .pagination .page-item.disabled .page-link {
+                color: #cacaca;
+            }
+            .members section .pagination .page-item.active .page-link {
+                background-color: #28a745;
+                color: #fff;
+            }
+            @keyframes animated {
+                from {
+                    transform: scale(.2);
+                }
+                to {
+                    transform: scale(1);
+                }
+            }
+            @media (max-width: 767px) {
+                .edit-box {
+                    overflow: auto;
+                    width: 300px;
+                    left: calc(50% - 150px);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="overlay">
+            <div class="edit-box">
+                <h5>تعديل مشترك</h5>
+                <form>
+                    <div class="form-group">
+                        <label>الاسم الرباعي:</label>
+                        <input type="text" class="form-control" autofocus="yes">
+                    </div>
+    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>رقم الهوية:</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputPassword4">الايميل:</label>
+                            <input type="email" class="form-control">
+                        </div>
+                    </div>
+    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>رقم الهاتف:</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputPassword4">رقم الجوال:</label>
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>رقم الحساب:</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputPassword4">رقم حساب اخر:</label>
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+    
+                    <div class="form-row">
+                        <button class='btn btn-success' id='cancel'>الغاء</button>
+                        <button type='submit' class='btn btn-success' disabled>حفظ</button>
+                    </div>
+                </form>
+            </div>
+            <div class="delete-box text-center">
+                <i class="fas fa-trash-alt"></i>
+                <p>هل انت متاكد من رغبتك في الحذف</p>
+                <div class="box">
+                    <button class='btn btn-success'>نعم</button>
+                    <button class='btn btn-success focus' id='no'>لا</button>
+                </div>
+            </div>
+        </div>
+        
+        <!--Start of Navbar-->
+        <nav class="navbar navbar-expand-md navbar-light fixed-top">
+            <!--Start of Right Section-->
+            <div class="right">
+                <button class="btn btn-primary" type="button">
+                    <i class="fas fa-align-right fa-lg"></i>
+                </button>
+                <img src='img/logged-in_Logo.svg' alt='Logo'>
+            </div>
+            <!--End of Right Section-->
+
+            <!--Start of Collapse-->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarDown" aria-controls="navbarDown" aria-expanded="false" aria-label="Toggle navigation">
+                <span>
+                    <i class="fas fa-sort-down"></i>
+                </span>
+            </button>
+            <!--End of Collapse-->
+
+            <!--Start of Left Section-->
+            <div class="left collapse navbar-collapse" id="navbarDown">
+                <ul class="navbar-nav mr-auto">
+                    <li class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fas fa-search fa-lg"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="ابحث هنا">
+                    </li>
+
+                    <li class="nav-item calc">
+                        <i class="fas fa-calculator"></i>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="notifications.html">
+                            <i class="fas fa-bell"></i>
+                            <span>2</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <img class='rounded-circle' src='http://placehold.it/40' alt=''>
+                    </li>
+                </ul>
+            </div>
+            <!--End of Left Section-->
+        </nav>
+        <!--End of Navbar-->
+
+        <!--Start of Aside-->
+        <aside>
+            <ul class='list-unstyled'>
+                <li class='rounded-top special' data-toggle="collapse" href="#members">
+                        <div class="right">
+                            <i class='fas fa-users'></i>
+                            <span>المشتركين</span>
+                        </div>
+                        <div class="left">
+                            <i class='fas fa-sort-down'></i>
+                        </div>
+                </li>
+
+                <div class="collapse rounded sub" id="members">
+                    <a href='members_add.html'>تسجيل المشتركين</a>
+                    <a href='members_list.html'>قائمة المشتركين</a>
+                    <a href='#'>ربط المشتركين</a>
+                </div>
+
+                <li onclick="window.location.href='notifications.html'">
+                    <div>
+                        <i class="fas fa-bell"></i>
+                        <span>اشعارات</span>
+                    </div>
+                </li>
+
+                <li class='rounded-top special' data-toggle="collapse" href="#loans">
+                    <div class="right">
+                        <i class="fas fa-file-alt"></i>
+                        <span>القروض</span>
+                    </div>
+                    <div class="left">
+                        <i class='fas fa-sort-down'></i>
+                    </div>
+                </li>
+
+                <div class="collapse sub" id="loans">
+                    <a href='#'>ادخال قرض جديد</a>
+                    <a href='#'>ادخال البيانات المالية</a>
+                    <a href='#'>ملخص البيانات المالية</a>
+                </div>
+
+                <li>
+                    <div>
+                        <i class="fas fa-chart-bar"></i>
+                        <span>الاستثمار</span>
+                    </div>
+                </li>
+                
+                <li>
+                    <div>
+                        <i class="fas fa-coins"></i>
+                        <span>زكاة</span>
+                    </div>
+                </li>
+
+                <li class='rounded-top special' data-toggle="collapse" href="#reports">
+                    <div class="right">
+                        <i class="fas fa-file-word"></i>
+                        <span>التقارير</span>
+                    </div>
+                    <div class="left">
+                        <i class='fas fa-sort-down'></i>
+                    </div>
+                </li>
+
+                <div class="collapse sub" id="reports">
+                    <a href='#'>خلاصة التقرير الشهري</a>
+                    <a href='#'>التقرير الشهري الشامل</a>
+                    <a href='#'>التقرير لمراقبة القرض الفوري</a>
+                    <a href='#'>التقرير لمراقبة القرض العادي</a>
+                    <a href='#'>التقرير لايرادات و مصروفات الغرامات</a>
+                    <a href='#'>التقرير الاعضاء الغير مقترضين</a>
+                    <a href='#'>التقرير الاعضاء مقترضين</a>
+                    <a href='#'>تقرير ايرادات الاستثمار 1</a>
+                </div>
+
+                <li>
+                    <div>
+                        <i class="fas fa-folder"></i>
+                        <span>الارشيف</span>
+                    </div>
+                </li>
+
+                <li class='rounded-bottom' onclick="window.location.href='main.html'">
+                    <div>
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>تسجيل الخروج</span>
+                    </div>
+                </li>
+            </ul>
+        </aside>
+        <!--End of Aside-->
+
+        <!--Start of Content-->
+        <article class='full'>
+            <div class="members text-right">
+                <h1>المشتركين</h1>
+                <section>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">الرقم التسلسلي</th>
+                                    <th scope="col">الاسم</th>
+                                    <th scope="col">عدد الاقساط المسددة للقرض العادي</th>
+                                    <th scope="col">عدد الاقساط المتبقية للقرض العادي</th>
+                                    <th scope="col">قيمة القرض</th>
+                                    <th scope="col">المتبقي من القرض</th>
+                                    <th scope="col">تاريخ آخر قسط</th>
+                                    <th scope="col">ملاحظات</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0</td>
+                                    <td>محمد احمد حسن علاء</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>5,492</td>
+                                    <td>946</td>
+                                    <td>Dec 23, 1996</td>
+                                    <td></td>
+                                    <td>
+                                        <div class="edit btn btn-dark">
+                                            <i class="fas fa-edit"></i>
+                                        </div>
+                                        <div class="remove btn btn-dark">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>1</td>
+                                    <td>صادق عبد القادر محمد فتحي</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>5,492</td>
+                                    <td>946</td>
+                                    <td>Dec 23, 1996</td>
+                                    <td></td>
+                                    <td>
+                                        <div class="edit btn btn-dark">
+                                            <i class="fas fa-edit"></i>
+                                        </div>
+                                        <div class="remove btn btn-dark">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>2</td>
+                                    <td>عزيز محمد كمال يوسف</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>5,492</td>
+                                    <td>946</td>
+                                    <td>Dec 23, 1996</td>
+                                    <td></td>
+                                    <td>
+                                        <div class="edit btn btn-dark">
+                                            <i class="fas fa-edit"></i>
+                                        </div>
+                                        <div class="remove btn btn-dark">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>3</td>
+                                    <td>ياسر عبد الوهاب عبدالقادر طارق</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>5,492</td>
+                                    <td>946</td>
+                                    <td>Dec 23, 1996</td>
+                                    <td></td>
+                                    <td>
+                                        <div class="edit btn btn-dark">
+                                            <i class="fas fa-edit"></i>
+                                        </div>
+                                        <div class="remove btn btn-dark">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>4</td>
+                                    <td>محمود حمد مهدي ناصر</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>5,492</td>
+                                    <td>946</td>
+                                    <td>Dec 23, 1996</td>
+                                    <td></td>
+                                    <td>
+                                        <div class="edit btn btn-dark">
+                                            <i class="fas fa-edit"></i>
+                                        </div>
+                                        <div class="remove btn btn-dark">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>5</td>
+                                    <td>حامد عادل سالم هزاع</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>5,492</td>
+                                    <td>946</td>
+                                    <td>Dec 23, 1996</td>
+                                    <td></td>
+                                    <td>
+                                        <div class="edit btn btn-dark">
+                                            <i class="fas fa-edit"></i>
+                                        </div>
+                                        <div class="remove btn btn-dark">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>6</td>
+                                    <td>محمد احمد حسن علاء</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>5,492</td>
+                                    <td>946</td>
+                                    <td>Dec 23, 1996</td>
+                                    <td></td>
+                                    <td>
+                                        <div class="edit btn btn-dark">
+                                            <i class="fas fa-edit"></i>
+                                        </div>
+                                        <div class="remove btn btn-dark">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>7</td>
+                                    <td>صادق عبد القادر محمد فتحي</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>5,492</td>
+                                    <td>946</td>
+                                    <td>Dec 23, 1996</td>
+                                    <td></td>
+                                    <td>
+                                        <div class="edit btn btn-dark">
+                                            <i class="fas fa-edit"></i>
+                                        </div>
+                                        <div class="remove btn btn-dark">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>8</td>
+                                    <td>عزيز محمد كمال يوسف</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>5,492</td>
+                                    <td>946</td>
+                                    <td>Dec 23, 1996</td>
+                                    <td></td>
+                                    <td>
+                                        <div class="edit btn btn-dark">
+                                            <i class="fas fa-edit"></i>
+                                        </div>
+                                        <div class="remove btn btn-dark">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>9</td>
+                                    <td>ياسر عبد الوهاب عبدالقادر طارق</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>5,492</td>
+                                    <td>946</td>
+                                    <td>Dec 23, 1996</td>
+                                    <td></td>
+                                    <td>
+                                        <div class="edit btn btn-dark">
+                                            <i class="fas fa-edit"></i>
+                                        </div>
+                                        <div class="remove btn btn-dark">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+
+
+                                
+                            </tbody>
+                        </table>
+
+                        <nav aria-label="switchTable">
+                            <ul class="pagination pagination-sm mr-3">
+
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                                        <span aria-hidden="true">&laquo;</span>السابق
+                                    </a>
+                                </li>
+
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item" aria-current="page">
+                                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                                </li>
+
+                                <li class="page-item">
+                                    <a class="page-link" href="#">التالي
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </section>
+
+                <div class="row text-left">
+                    <div class="col">
+                        <a class="btn btn-dark m-5" href="members_add.html" role="button">
+                            <i class="fas fa-user-plus"></i> اضافة مشترك
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <!--End of Content-->
+
+        <script src='js/jquery-3.5.1.js'></script>
+        <script src='js/popper.js'></script>
+        <script src='js/bootstrap.min.js'></script>
+        <script src='js/logged-in_script.js'></script>
+        <script>
+            let editBox = document.querySelector(".edit-box");
+            let overlay = document.querySelector(".overlay");
+            let deleteBox = document.querySelector(".delete-box");
+
+            document.querySelectorAll(".members section .table-responsive tbody .edit").forEach(button => {
+
+                button.addEventListener("click", function (e) {
+
+                    e.stopPropagation();
+                    overlay.classList.add("show");
+                    editBox.classList.add("show");
+                })
+            });
+
+            document.querySelectorAll(".members section .table-responsive tbody .remove").forEach(button => {
+
+                button.addEventListener("click", function (e) {
+
+                    e.stopPropagation();
+                    overlay.classList.add("show");
+                    deleteBox.classList.add("show");
+            })
+            });
+
+            editBox.onclick = function (e) {
+
+                e.stopPropagation();
+            };
+
+            deleteBox.onclick = function (e) {
+
+                e.stopPropagation();
+                document.getElementById("no").classList.remove("focus");
+            };
+
+            document.addEventListener("click", (e) => {
+
+                if (overlay.classList.contains('show') && editBox.classList.contains('show')) {
+                    
+                    if (e.target !== editBox) {
+
+                        overlay.classList.remove("show");
+                        editBox.classList.remove("show");
+                    }
+                }
+
+                if (overlay.classList.contains('show') && deleteBox.classList.contains('show')) {
+                    
+                    if (e.target !== deleteBox) {
+
+                        overlay.classList.remove("show");
+                        deleteBox.classList.remove("show");
+                    }
+                }
+            });
+
+            document.getElementById("cancel").onclick = function (e) {
+
+                e.preventDefault();
+                overlay.classList.remove("show");
+                editBox.classList.remove("show");
+            }
+
+            document.getElementById("no").onclick = function (e) {
+
+                overlay.classList.remove("show");
+                deleteBox.classList.remove("show");
+            }
+
+            window.onscroll = () => {
+
+                if (overlay.classList.contains('show') && editBox.classList.contains('show')) {
+
+                    window.scrollTo(0, 0);
+                }
+
+                if (overlay.classList.contains('show') && deleteBox.classList.contains('show')) {
+
+                    window.scrollTo(0, 0);
+                }
+            }
+        </script>
+    </body>
+</html>
